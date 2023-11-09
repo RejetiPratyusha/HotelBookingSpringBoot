@@ -22,14 +22,14 @@ public class LocationController {
 	@Autowired
 	private LocationService locationService;
 	
-	
 	@Autowired
-	private HrService hrService;
+	private ExecutiveService executiveService;
+	
 	
 	
 	  @PostMapping("/location/add/{eid}") 
 	  public ResponseEntity<?> addLocation(@PathVariable("eid") int eid, @RequestBody Location location){
-	Executive executive = hrService.getById(eid);
+	Executive executive = executiveService.getById(eid);
 	location.setExecutive(executive);
 
 location = locationService.insert(location);

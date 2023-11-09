@@ -2,6 +2,7 @@ package com.springboot.HotelBookingSystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,9 @@ import com.springboot.HotelBookingSystem.service.ExecutiveService;
 import com.springboot.HotelBookingSystem.service.UserService;
 
 
+
 @RestController
-@RequestMapping("/feelhome")
+@RequestMapping("/executive")
 public class ExecutiveController {
 	
 	@Autowired
@@ -29,7 +31,7 @@ public class ExecutiveController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/add/hotels")
+	/*@PostMapping("/add/hotels")
 	public HotelAdmin inserthotels(@RequestBody HotelAdmin hotelAdmin) {
 		User user = hotelAdmin.getUser();
 		String passwordPlain = user.getPassword();
@@ -41,8 +43,18 @@ public class ExecutiveController {
 		
 		
 		return executiveService.insert(hotelAdmin);
+	}*/
+	@PostMapping("/add/{id}")
+    public Executive insertExecutive(@PathVariable("id") int id,@RequestBody Executive executive) {
+		User user = executive.getUser();
+		String passwordPlain = user.getPassword();
+		String encodedPassword = passwordEncoder.encode(passwordPlain);
+		user.setPassword(encodedPassword);
+		user.setRole(Role.EXECUTIVE);
+		user = userService.insert(user);
+		executive.setUser(user);
+		return executiveService.insertExecutive(executive);
 	}
-	
 	
 	
 }

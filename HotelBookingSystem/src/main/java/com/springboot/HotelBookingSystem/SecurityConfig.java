@@ -15,6 +15,7 @@ import com.springboot.HotelBookingSystem.service.UserService;
 
 
 
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
@@ -29,8 +30,8 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	protected void configure(HttpSecurity http) throws Exception {
 	http
 	.authorizeRequests()
-	
-	.antMatchers("/feelhome/add/executive").permitAll()
+	.antMatchers("/hr/add").permitAll()
+	.antMatchers("/executive/add/{id}").permitAll()
 	.anyRequest().authenticated()
 	.and().httpBasic()
 	.and()
@@ -49,4 +50,3 @@ public AuthenticationProvider getProvider() {
 	return dao;
 }
 }
-
