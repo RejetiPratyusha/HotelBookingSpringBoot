@@ -25,8 +25,7 @@ public class LocationController {
 	@Autowired
 	private ExecutiveService executiveService;
 	
-	
-	
+
 	  @PostMapping("/location/add/{eid}") 
 	  public ResponseEntity<?> addLocation(@PathVariable("eid") int eid, @RequestBody Location location){
 	Executive executive = executiveService.getById(eid);
