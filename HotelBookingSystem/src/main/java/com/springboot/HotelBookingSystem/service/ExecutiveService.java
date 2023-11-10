@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.springboot.HotelBookingSystem.exception.InvalidIdException;
 import com.springboot.HotelBookingSystem.model.Executive;
 import com.springboot.HotelBookingSystem.repository.ExecutiveRepository;
 
@@ -31,8 +32,10 @@ public class ExecutiveService {
 
 	
 
-	public Executive getById(int eid) {
+	public Executive getById(int eid) throws InvalidIdException {
 		Optional<Executive> optional = executiveRepository.findById(eid);
+		if(!optional.isPresent())
+			throw new InvalidIdException("executive id invalid");
 		return optional.get();
 	}
 

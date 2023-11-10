@@ -44,8 +44,8 @@ public class ExecutiveController {
 		
 		return executiveService.insert(hotelAdmin);
 	}*/
-	@PostMapping("/add/{id}")
-    public Executive insertExecutive(@PathVariable("id") int id,@RequestBody Executive executive) {
+	@PostMapping("/add")
+    public Executive insertExecutive(@RequestBody Executive executive) {
 		User user = executive.getUser();
 		String passwordPlain = user.getPassword();
 		String encodedPassword = passwordEncoder.encode(passwordPlain);
