@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 
@@ -18,6 +19,9 @@ public class HotelAdmin {
 	
 	@OneToOne
 	private User user;
+	
+	@OneToOne
+	private Executive executive;
 
 	public int getId() {
 		return id;
@@ -51,9 +55,20 @@ public class HotelAdmin {
 		this.user = user;
 	}
 
+	public Executive getExecutive() {
+		return executive;
+	}
+
+	public void setExecutive(Executive executive) {
+		this.executive = executive;
+	}
+
 	@Override
 	public String toString() {
-		return "HotelAdmin [id=" + id + ", name=" + name + ", email=" + email + ", user=" + user + "]";
+		return "HotelAdmin [id=" + id + ", name=" + name + ", email=" + email + ", user=" + user + ", executive="
+				+ executive + "]";
 	}
+
+	
 	
 }

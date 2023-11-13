@@ -31,7 +31,6 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	http
 	.authorizeRequests()
 	.antMatchers("/hr/add").permitAll()
-	.antMatchers("/executive/add/{id}").permitAll()
 	.anyRequest().authenticated()
 	.and().httpBasic()
 	.and()
