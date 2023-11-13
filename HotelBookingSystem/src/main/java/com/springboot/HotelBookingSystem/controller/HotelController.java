@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.HotelBookingSystem.dto.ExecutiveDto;
+import com.springboot.HotelBookingSystem.dto.HotelDto;
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
 import com.springboot.HotelBookingSystem.model.Executive;
 import com.springboot.HotelBookingSystem.model.Hotel;
@@ -84,7 +87,7 @@ public class HotelController {
 	public ResponseEntity<?> getAllHotelsByEid(@PathVariable("eid") int eid) {
 		try {
 			// fetch executive obj using executive id
-			Executive executive = executiveService.getOne(eid);
+			Executive executive = executiveService.getById(eid);
 
 			// get all hotels using executive id
 			List<Hotel> list = hotelService.getAllHotelsByEid(eid);
@@ -136,6 +139,33 @@ public class HotelController {
 			// delete
 			hotelService.deleteHotel(hotel);
 			return ResponseEntity.ok().body("hotel deleted successfully");
+
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/updatehotel/{hid}")
+	public ResponseEntity<?> updateHotel(@PathVariable("hid") int hid, @RequestBody HotelDto newHotel){
+try {
+			
+			// Getting the executive details by Id
+			Hotel oldHotel = hotelService.getHotelsByHid(hid);
+			
+			//Checking the values in new object and setting to old object
+			if(newHotel.getName() != null)
+				oldHotel.setName(newHotel.getName());
+			if(newHotel.getEmail() != null)
+				oldHotel.setEmail(newHotel.getEmail());
+			if(newHotel.getAddress() != null)
+				oldHotel.setAddress(newHotel.getAddress());
+			if(newHotel.getPhone_number() != null)
+				oldHotel.setPhone_number(newHotel.getPhone_number());
+			
+			//Inserting the updated values to executive
+			oldHotel = hotelService.postHotel(oldHotel);
+			
+			return ResponseEntity.ok().body(oldHotel);
 
 		} catch (InvalidIdException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

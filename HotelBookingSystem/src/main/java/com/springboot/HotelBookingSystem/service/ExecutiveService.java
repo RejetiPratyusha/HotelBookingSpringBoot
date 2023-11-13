@@ -38,13 +38,6 @@ public class ExecutiveService {
 		return optional.get();
 	}
 
-	public Executive getOne(int eid) throws InvalidIdException {
-		Optional<Executive> optional = executiveRepository.findById(eid);
-		if(!optional.isPresent()) {
-			throw new InvalidIdException("executive id invalid");
-		}
-		return optional.get();
-	}
 
 	public void deleteExecutive(Executive executive) {
 		executiveRepository.delete(executive);

@@ -53,4 +53,6 @@ public class HotelService {
 		hotelRepository.delete(hotel);
 	}
 
+	
+
 }
