@@ -44,13 +44,18 @@ public class HrController {
 	@PostMapping("/add")
 	public Hr insertHr(@RequestBody Hr hr) {
 
+		// Getting user details from postman
 		User user = hr.getUser();
 		String passwordPlain = user.getPassword();
 		String encodedPassword = passwordEncoder.encode(passwordPlain);
 		user.setPassword(encodedPassword);
 		user.setRole(Role.HR);
+		
+		// inserting hr details in user table
 		user = userService.insert(user);
 		hr.setUser(user);
+		
+		
 		return hrService.insertHr(hr);
 	}
 	

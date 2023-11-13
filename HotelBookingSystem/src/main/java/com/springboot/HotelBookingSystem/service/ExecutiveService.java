@@ -13,6 +13,7 @@ import com.springboot.HotelBookingSystem.repository.ExecutiveRepository;
 
 
 
+
 @Service
 public class ExecutiveService {
 	
@@ -21,12 +22,10 @@ public class ExecutiveService {
 	private ExecutiveRepository executiveRepository;
 
 	public Executive insertExecutive(Executive executive) {
-		// TODO Auto-generated method stub
 		return executiveRepository.save(executive);
 	}
 
 	public List<Executive> getAll(Pageable pageable) {
-		// TODO Auto-generated method stub
 		return executiveRepository.findAll(pageable).getContent();
 	}
 
@@ -37,6 +36,18 @@ public class ExecutiveService {
 		if(!optional.isPresent())
 			throw new InvalidIdException("executive id invalid");
 		return optional.get();
+	}
+
+	public Executive getOne(int eid) throws InvalidIdException {
+		Optional<Executive> optional = executiveRepository.findById(eid);
+		if(!optional.isPresent()) {
+			throw new InvalidIdException("executive id invalid");
+		}
+		return optional.get();
+	}
+
+	public void deleteExecutive(Executive executive) {
+		executiveRepository.delete(executive);
 	}
 
 }

@@ -22,6 +22,11 @@ public class HrService {
 		return hrRepository.save(hr);
 	}
 
+	public Hr getHrById(int hrid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
 
