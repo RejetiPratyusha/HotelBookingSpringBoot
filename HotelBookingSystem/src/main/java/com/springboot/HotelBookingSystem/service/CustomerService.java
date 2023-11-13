@@ -1,8 +1,10 @@
 package com.springboot.HotelBookingSystem.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.springboot.HotelBookingSystem.model.Customer;
@@ -28,5 +30,10 @@ public class CustomerService {
 		}
 		return optional.get();
 		
+	}
+
+	public List<Customer> getAll(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return customerRepository.findAll(pageable).getContent();
 	}
 }
