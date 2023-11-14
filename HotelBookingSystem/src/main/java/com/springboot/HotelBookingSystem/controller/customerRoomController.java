@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.HotelBookingSystem.service.CustomerService;
@@ -15,6 +16,7 @@ import com.springboot.HotelBookingSystem.service.customerRoomService;
 import com.springboot.HotelBookingSystem.service.RoomService;
 
 @RestController
+@RequestMapping("/feelhome")
 public class customerRoomController {
 	@Autowired
 	private CustomerService customerService;
@@ -25,7 +27,7 @@ public class customerRoomController {
 	@Autowired
 	private customerRoomService customerRoomService;
 	
-	@PostMapping
+	@PostMapping("/customerroom/add")
 	public void insert(@PathVariable("cid") int cid,
 						@PathVariable("rid") int rid,
 			@RequestBody customerRoom customerroom) {
