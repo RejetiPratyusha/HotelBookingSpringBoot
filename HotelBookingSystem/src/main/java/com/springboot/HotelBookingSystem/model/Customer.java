@@ -1,5 +1,7 @@
 package com.springboot.HotelBookingSystem.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,7 +20,7 @@ public class Customer {
 	private int id;
 	private String name;
 	private String phone;
-	private String dateOfBirth;
+	private LocalDate dateOfBirth;
 	private int age;
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
@@ -52,12 +54,12 @@ public class Customer {
 		this.phone = phone;
 	}
 
-	public String getDateOfBirth() {
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setDateOfBirth(LocalDate localDate) {
+		this.dateOfBirth = localDate;
 	}
 
 	public int getAge() {

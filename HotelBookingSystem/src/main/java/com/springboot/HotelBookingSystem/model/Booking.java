@@ -1,5 +1,7 @@
 package com.springboot.HotelBookingSystem.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +14,8 @@ public class Booking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private String check_in;
-	private String check_out;
+	private LocalDate check_in;
+	private LocalDate check_out;
 	private int noOfAdults;
 	private int noOfChildren;
 	
@@ -28,20 +30,20 @@ public class Booking {
 		this.id = id;
 	}
 
-	public String getCheck_in() {
+	public LocalDate getCheck_in() {
 		return check_in;
 	}
 
-	public void setCheck_in(String check_in) {
+	public void setCheck_in(LocalDate check_in) {
 		this.check_in = check_in;
 	}
 
-	public String getCheck_out() {
+	public LocalDate getCheck_out() {
 		return check_out;
 	}
 
-	public void setCheck_out(String check_out) {
-		this.check_out = check_out;
+	public void setCheck_out(LocalDate localDate) {
+		this.check_out = localDate;
 	}
 
 	public int getNoOfAdults() {

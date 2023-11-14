@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import com.springboot.HotelBookingSystem.model.Customer;
 import com.springboot.HotelBookingSystem.model.User;
 import com.springboot.HotelBookingSystem.service.CustomerService;
 import com.springboot.HotelBookingSystem.service.UserService;
+import com.springboot.HotelBookingSystem.dto.Customerdto;
 
 @RestController
 @RequestMapping("/feelhome")
@@ -73,5 +75,34 @@ import com.springboot.HotelBookingSystem.service.UserService;
 			}
 			
 		}
+		
+		@PutMapping("/customer/update/{cid}")
+		public ResponseEntity<?> updateCustomer(@PathVariable("cid") int cid, @RequestBody Customerdto newCustomer) {
+			try {
+			Customer oldCustomer = customerService.getById(cid);
+			if (newCustomer.getName() != null)
+				oldCustomer.setName(newCustomer.getName());
+			if (newCustomer.getPhone() != null)
+				oldCustomer.setPhone(newCustomer.getPhone());
+			if (newCustomer.getDateOfBirth() != null)
+				oldCustomer.setDateOfBirth(newCustomer.getDateOfBirth());
+			if (newCustomer.getAge() != 0)
+				oldCustomer.setAge(newCustomer.getAge());
+			if (newCustomer.getGender() != null)
+				oldCustomer.setGender(newCustomer.getGender());
+			if (newCustomer.getEmail() != null)
+				oldCustomer.setEmail(newCustomer.getEmail());
+			if (newCustomer.getIdproof() != null)
+				oldCustomer.setIdProof(newCustomer.getIdproof());
+			oldCustomer = customerService.insert(oldCustomer);
+			return ResponseEntity.ok().body(oldCustomer);
+		}
+		catch(InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+		}
+		
+		
 	}
 
