@@ -149,7 +149,7 @@ public class HotelController {
 	public ResponseEntity<?> updateHotel(@PathVariable("hid") int hid, @RequestBody HotelDto newHotel){
 try {
 			
-			// Getting the executive details by Id
+			// Getting the Hotel details by Id
 			Hotel oldHotel = hotelService.getHotelsByHid(hid);
 			
 			//Checking the values in new object and setting to old object
@@ -162,7 +162,7 @@ try {
 			if(newHotel.getPhone_number() != null)
 				oldHotel.setPhone_number(newHotel.getPhone_number());
 			
-			//Inserting the updated values to executive
+			//Inserting the updated values to Hotel
 			oldHotel = hotelService.postHotel(oldHotel);
 			
 			return ResponseEntity.ok().body(oldHotel);
