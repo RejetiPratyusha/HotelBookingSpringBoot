@@ -28,7 +28,7 @@ public class customerRoomController {
 	@Autowired
 	private customerRoomService customerRoomService;
 	
-	@PostMapping("/customerroom/add/{cid}")
+	@PostMapping("/customerroom/add/{cid}/{rid}")
 	public ResponseEntity<?> insert(@PathVariable("cid") int cid,
 						@PathVariable("rid") int rid,
 			@RequestBody customerRoom customerroom) {
