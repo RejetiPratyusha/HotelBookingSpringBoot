@@ -1,6 +1,7 @@
 package com.springboot.HotelBookingSystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class customerRoomController {
 	private customerRoomService customerRoomService;
 	
 	@PostMapping("/customerroom/add")
-	public void insert(@PathVariable("cid") int cid,
+	public ResponseEntity<?> insert(@PathVariable("cid") int cid,
 						@PathVariable("rid") int rid,
 			@RequestBody customerRoom customerroom) {
 		try {
@@ -39,9 +40,10 @@ public class customerRoomController {
 			customerroom.setRoom(room);
 			
 			customerroom = customerRoomService.insert(customerroom);
+			return ResponseEntity.ok().body(customerroom);
 		} catch (InvalidIdException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
