@@ -1,8 +1,10 @@
 package com.springboot.HotelBookingSystem.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
 import com.springboot.HotelBookingSystem.model.Room;
@@ -25,6 +27,11 @@ public class RoomService {
 	public Room insert(Room room) {
 		// TODO Auto-generated method stub
 		return roomRepository.save(room);
+	}
+
+	public List<Room> getAll(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return roomRepository.findAll(pageable).getContent();
 	}
 
 }
