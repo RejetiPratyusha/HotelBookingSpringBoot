@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
 import com.springboot.HotelBookingSystem.model.Hotel;
+import com.springboot.HotelBookingSystem.model.HotelAdmin;
 import com.springboot.HotelBookingSystem.repository.HotelRepository;
 
 @Service
@@ -53,6 +54,14 @@ public class HotelService {
 		hotelRepository.delete(hotel);
 	}
 
+	public List<Hotel> getByAdmin(int aid) {
+		// TODO Auto-generated method stub
+		return hotelRepository.findByHotelAdminId(aid);
+	}
+
+	
+	
+	
 	
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,18 @@ public class LocationController {
 		
 
 }
+	
+	@DeleteMapping("/location/delete/{lid}")
+	public ResponseEntity<?> deleteLocation(@PathVariable("lid") int lid) {
+//		fetch location details by id
+		try {
+			Location location = locationService.getOne(lid);
+			locationService.deleteLocation(location);
+			return ResponseEntity.ok().body("location deleted");
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 	
 	
 }

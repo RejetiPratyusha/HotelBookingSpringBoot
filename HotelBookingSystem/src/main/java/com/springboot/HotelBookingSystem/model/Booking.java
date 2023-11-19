@@ -18,9 +18,17 @@ public class Booking {
 	private LocalDate check_out;
 	private int noOfAdults;
 	private int noOfChildren;
+	private String bookingStatus;
 	
 	@ManyToOne
 	private Customer customer;
+	
+	@ManyToOne
+	private Room room;
+	
+	@ManyToOne
+	private Hotel hotel;
+
 
 	public int getId() {
 		return id;
@@ -68,6 +76,32 @@ public class Booking {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+		
+	}
+	
+
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+
+	public void setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
 	}
 
 	@Override

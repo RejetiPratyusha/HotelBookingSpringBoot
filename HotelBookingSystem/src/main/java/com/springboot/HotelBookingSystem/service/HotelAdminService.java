@@ -1,5 +1,6 @@
 package com.springboot.HotelBookingSystem.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,16 @@ public class HotelAdminService {
 	public void deleteHotelAdmin(HotelAdmin hotelAdmin) {
 		hotelAdminRepository.delete(hotelAdmin);
 		
+	}
+
+	public List<HotelAdmin> getByExecutive(int eid) {
+		// TODO Auto-generated method stub
+		return hotelAdminRepository.findByExecutiveId(eid);
+	}
+
+	public HotelAdmin insertRoom(HotelAdmin oldHotelAdmin) {
+		// TODO Auto-generated method stub
+		return hotelAdminRepository.save(oldHotelAdmin);
 	}
 
 }
