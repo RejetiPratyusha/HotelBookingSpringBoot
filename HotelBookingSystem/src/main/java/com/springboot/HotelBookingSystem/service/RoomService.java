@@ -6,10 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import com.springboot.HotelBookingSystem.dto.AvailabilityDto;
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
-import com.springboot.HotelBookingSystem.model.Booking;
 import com.springboot.HotelBookingSystem.model.Room;
 import com.springboot.HotelBookingSystem.repository.BookingRepository;
 import com.springboot.HotelBookingSystem.repository.RoomRepository;
@@ -65,5 +62,4 @@ public class RoomService {
 	 * ()); return rooms; }
 	 */
 	
-
 }

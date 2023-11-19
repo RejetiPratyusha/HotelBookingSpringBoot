@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.springboot.HotelBookingSystem.dto.AvailabilityDto;
 import com.springboot.HotelBookingSystem.dto.RoomDto;
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
@@ -49,36 +49,6 @@ public class RoomController {
 		}
 	}
 	
-	@GetMapping("/rooms/{hid}")
-	public ResponseEntity<?> getRoomsByHotel(@PathVariable("hid") int hid) {
-		try {
-			Hotel hotel = hotelService.getOne(hid);
-			List<Room> list = roomService.getRoomsByHid(hid);
-			return ResponseEntity.ok().body(list);
-		} catch (InvalidIdException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-		
-	}
-	
-	@PutMapping("/updateroom/{rid}")
-	public ResponseEntity<?> updateRoom(@PathVariable("rid") int rid, @RequestBody RoomDto newRoom) {
-		try {
-			Room oldRoom = roomService.getById(rid);
-			
-			if(newRoom.getPrice() != 0)
-				oldRoom.setPrice(newRoom.getPrice());
-			if(newRoom.getRoom_type() != null)
-				oldRoom.setRoom_type(newRoom.getRoom_type());
-			oldRoom = roomService.insertRoom(oldRoom);
-			
-			return ResponseEntity.ok().body(oldRoom);
-
-			
-		} catch (InvalidIdException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
 	
 	@DeleteMapping("/deleteroom/{id}")
 	public ResponseEntity<?> deleteExecutive(@PathVariable("id") int id) {
@@ -124,5 +94,35 @@ public class RoomController {
 	
 	
 	
+	@GetMapping("/rooms/getall/{hid}")
+	public List<Room> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "size", required = false, defaultValue = "1000000") Integer size,
+			@PathVariable("hid") int hid)
+	{
+		Pageable pageable = PageRequest.of(page,size);
+		return roomService.getAll(pageable);
+		
+		
+		
+		}
 	
+
+@PutMapping("/room/update/{rid}")
+public ResponseEntity<?> updateBooking(@PathVariable("rid") int rid, @RequestBody RoomDto newRoom) {
+	try {
+	Room oldRoom = roomService.getById(rid);
+	if (newRoom.getRoom_type() != null)
+		oldRoom.setRoom_type(newRoom.getRoom_type());
+	if (newRoom.getPrice() != 0)
+		oldRoom.setPrice(newRoom.getPrice());
+	
+
+	oldRoom = roomService.insert(oldRoom);
+	return ResponseEntity.ok().body(oldRoom);
+}
+catch(InvalidIdException e) {
+	return ResponseEntity.badRequest().body(e.getMessage());
+}
+
+}
 }

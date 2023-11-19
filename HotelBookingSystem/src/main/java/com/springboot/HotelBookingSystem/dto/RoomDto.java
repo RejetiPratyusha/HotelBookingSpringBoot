@@ -1,15 +1,9 @@
 package com.springboot.HotelBookingSystem.dto;
 
 public class RoomDto {
-	private int id;
 	private String room_type;
 	private double price;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getRoom_type() {
 		return room_type;
 	}
@@ -24,7 +18,8 @@ public class RoomDto {
 	}
 	@Override
 	public String toString() {
-		return "RoomDto [id=" + id + ", room_type=" + room_type + ", price=" + price + "]";
+		return "RoomDto [room_type=" + room_type + ", price=" + price + ", getRoom_type()=" + getRoom_type()
+				+ ", getPrice()=" + getPrice() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
-	
 }
