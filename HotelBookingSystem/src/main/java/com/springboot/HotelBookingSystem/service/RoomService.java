@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
 import com.springboot.HotelBookingSystem.model.Room;
-import com.springboot.HotelBookingSystem.repository.BookingRepository;
+import com.springboot.HotelBookingSystem.repository.CustomerRoomRepository;
 import com.springboot.HotelBookingSystem.repository.RoomRepository;
 
 @Service
@@ -21,7 +21,7 @@ public class RoomService {
 	private RoomRepository roomRepository;
 	
 	@Autowired
-	private BookingRepository bookingRepository;
+	private CustomerRoomRepository bookingRepository;
 	
 	public Room getById(int rid) throws InvalidIdException {
 		// TODO Auto-generated method stub
@@ -72,5 +72,13 @@ public class RoomService {
 		 }
 		return availableRooms;
 	}
-	
+
+	public List<Room> getRoomsByIds(List<Integer> roomIds) throws InvalidIdException {
+	    List<Room> rooms = roomRepository.findAllById(roomIds);
+	    if (rooms.isEmpty()) {
+	        throw new InvalidIdException("No valid room IDs provided");
+	    }
+	    return rooms;
+	}
+
 }
