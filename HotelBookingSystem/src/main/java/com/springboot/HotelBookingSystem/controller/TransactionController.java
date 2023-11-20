@@ -1,5 +1,6 @@
 package com.springboot.HotelBookingSystem.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class TransactionController {
 	@PostMapping("/transaction/add")
 	public Transaction insert(@RequestBody Transaction transaction) {
 		/*insert transaction into db*/
+		transaction.setDate(LocalDate.now());
 		return transactionService.insert(transaction);
 	}
 	
