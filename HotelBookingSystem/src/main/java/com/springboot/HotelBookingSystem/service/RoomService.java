@@ -1,11 +1,14 @@
 package com.springboot.HotelBookingSystem.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
 import com.springboot.HotelBookingSystem.model.Room;
 import com.springboot.HotelBookingSystem.repository.BookingRepository;
@@ -54,12 +57,20 @@ public class RoomService {
 		return roomRepository.findAll(pageable).getContent();
 	}
 
-	/*
-	 * public List<Room> getAllAvailableRoomsByHotelId(int hotelId, AvailabilityDto
-	 * dates) { //List<Room> rooms = roomRepository.findByHotelId(hotelId);
-	 * List<Room> rooms =
-	 * roomRepository.getAvailableRooms(hotelId,dates.getCheckIn(),dates.getCheckOut
-	 * ()); return rooms; }
-	 */
+	public List<Room> getAllAvailableRoomsByHotelId(int hotelId, LocalDate checkIn, LocalDate checkOut) { 
+		 List<Room> rooms = roomRepository.findByHotelId(hotelId);
+		 List<Room> availableRooms = new ArrayList<>();
+		 for(Room room : rooms) {
+			 int noOfBookings = bookingRepository.findNumberOfBookings(hotelId, room.getId(),checkIn, checkOut);
+			 if(room.getTotalRooms() > noOfBookings) {
+				 availableRooms.add(room);
+			 }
+			 else {
+				 System.out.println("No rooms available of type :::" + room.getRoom_type());
+			 }
+			 
+		 }
+		return availableRooms;
+	}
 	
 }

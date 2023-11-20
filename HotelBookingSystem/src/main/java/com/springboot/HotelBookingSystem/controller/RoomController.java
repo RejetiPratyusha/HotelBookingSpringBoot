@@ -1,10 +1,12 @@
 package com.springboot.HotelBookingSystem.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.springboot.HotelBookingSystem.dto.AvailabilityDto;
 import com.springboot.HotelBookingSystem.dto.RoomDto;
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
 import com.springboot.HotelBookingSystem.model.Hotel;
@@ -82,15 +83,15 @@ public class RoomController {
 	}
 	
 	
-	/*
-	 * @GetMapping("/get/availability/{hotelId}") public ResponseEntity<List<Room>>
-	 * getAllAvailableRoomsByHotelId(@PathVariable("hotelId") int hotelId,
-	 * 
-	 * @RequestBody AvailabilityDto dates) {
-	 * 
-	 * List<Room> rooms = roomService.getAllAvailableRoomsByHotelId(hotelId, dates);
-	 * return ResponseEntity.ok().body(rooms); }
-	 */
+	
+	@GetMapping("/get/availability/{hotelId}/{checkIn}/{checkOut}")
+	public List<Room> getAllAvailableRoomsByHotelId(@PathVariable("hotelId") int hotelId,
+			@PathVariable("checkIn")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn, 
+			@PathVariable("checkOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
+
+		return roomService.getAllAvailableRoomsByHotelId(hotelId, checkIn, checkOut);
+	}
+	 
 	
 	
 	

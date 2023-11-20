@@ -16,6 +16,7 @@ public class Room {
 	private int id;
 	private String room_type;
 	private double price;
+	private int totalRooms;
 	
 	
 
@@ -55,9 +56,19 @@ public class Room {
 		this.hotel = hotel;
 	}
 
+
+	public int getTotalRooms() {
+		return totalRooms;
+	}
+
+	public void setTotalRooms(int totalRooms) {
+		this.totalRooms = totalRooms;
+	}
+
 	@Override
 	public String toString() {
-		return "Room [id=" + id + ", room_type=" + room_type + ", price=" + price + ", hotel=" + hotel + "]";
+		return "Room [id=" + id + ", room_type=" + room_type + ", price=" + price + ", totalRooms=" + totalRooms
+				+ ", hotel=" + hotel + "]";
 	}
 
 	
