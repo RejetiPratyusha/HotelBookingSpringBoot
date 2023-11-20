@@ -1,5 +1,7 @@
 package com.springboot.HotelBookingSystem.model;
 
+
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,8 @@ public class Room {
 	private String room_type;
 	private double price;
 	
+	
+
 	@ManyToOne
 	private Hotel hotel;
 	
@@ -56,6 +60,7 @@ public class Room {
 		return "Room [id=" + id + ", room_type=" + room_type + ", price=" + price + ", hotel=" + hotel + "]";
 	}
 
+	
 	
 	
 	

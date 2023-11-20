@@ -6,11 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 import com.springboot.HotelBookingSystem.model.Hotel;
+import com.springboot.HotelBookingSystem.model.HotelAdmin;
 
 public interface HotelRepository extends JpaRepository<Hotel, Integer>{
 
 	List<Hotel> findByExecutiveId(int eid);
 
 	List<Hotel> findByLocationId(int lid);
+
+	List<Hotel> findByHotelAdminId(int aid);
+
+	
 
 }

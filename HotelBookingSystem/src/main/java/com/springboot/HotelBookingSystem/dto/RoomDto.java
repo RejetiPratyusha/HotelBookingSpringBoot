@@ -1,10 +1,9 @@
 package com.springboot.HotelBookingSystem.dto;
 
 public class RoomDto {
-
 	private String room_type;
 	private double price;
-	
+
 	public String getRoom_type() {
 		return room_type;
 	}
@@ -23,5 +22,4 @@ public class RoomDto {
 				+ ", getPrice()=" + getPrice() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
 	}
-	
 }

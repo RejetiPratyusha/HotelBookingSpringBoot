@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -89,7 +90,16 @@ public class ExecutiveController {
 		}
 	}
 	
-	
+	@GetMapping("/get/{eid}")
+	public ResponseEntity<?> getById(@PathVariable("eid") int eid) {
+//		fetch executive by id
+		try {
+			Executive executive = executiveService.getByExecutiveId(eid);
+			return ResponseEntity.ok().body(executive);
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 	
 	
 	

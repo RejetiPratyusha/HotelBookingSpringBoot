@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.springboot.HotelBookingSystem.dto.AvailabilityDto;
 import com.springboot.HotelBookingSystem.dto.RoomDto;
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
 import com.springboot.HotelBookingSystem.model.Hotel;
@@ -45,6 +47,50 @@ public class RoomController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+
+	@DeleteMapping("/deleteroom/{id}")
+	public ResponseEntity<?> deleteExecutive(@PathVariable("id") int id) {
+		try {
+			Room room = roomService.getById(id);
+            roomService.deleteRoom(room);
+			
+			return ResponseEntity.ok().body("room deleted successfully");
+
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+	}
+	
+	@GetMapping("/getallrooms")
+	public List<Room> getAllRooms(@RequestParam(value="page",required=false,defaultValue="0")Integer page,
+	                        @RequestParam(value="size",required=false,defaultValue="100000")Integer size ){
+		Pageable pageable = PageRequest.of(page,size);
+		return roomService.getAll(pageable);
+	}
+	
+	@GetMapping("/get/{rid}")
+	public ResponseEntity<?> getById(@PathVariable("rid") int rid) {
+		try{
+			Room room = roomService.getById(rid);
+		return ResponseEntity.ok().body(room);
+		}catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	
+	/*
+	 * @GetMapping("/get/availability/{hotelId}") public ResponseEntity<List<Room>>
+	 * getAllAvailableRoomsByHotelId(@PathVariable("hotelId") int hotelId,
+	 * 
+	 * @RequestBody AvailabilityDto dates) {
+	 * 
+	 * List<Room> rooms = roomService.getAllAvailableRoomsByHotelId(hotelId, dates);
+	 * return ResponseEntity.ok().body(rooms); }
+	 */
+	
+	
 
 	@GetMapping("/rooms/getall/{hid}")
 	public List<Room> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,

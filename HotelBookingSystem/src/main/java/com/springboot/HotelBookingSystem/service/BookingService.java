@@ -42,4 +42,13 @@ public class BookingService {
 		return bookingRepository.findAll(pageable).getContent();
 	}
 
+
+	public List<Booking> getByCustomer(int cid) {
+		// TODO Auto-generated method stub
+		return bookingRepository.findByCustomer(cid);
+	}
+
+
+	
+
 }

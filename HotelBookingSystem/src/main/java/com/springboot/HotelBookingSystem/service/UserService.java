@@ -28,4 +28,8 @@ public class UserService implements UserDetailsService{
 		System.out.println(user);
 		return user;
 	}
+	public User addUser(User user) {
+		// TODO Auto-generated method stub
+		return userRepository.save(user);
+	}
 }

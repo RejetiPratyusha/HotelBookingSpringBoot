@@ -144,27 +144,27 @@ public class HotelController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
 	@PutMapping("/updatehotel/{hid}")
-	public ResponseEntity<?> updateHotel(@PathVariable("hid") int hid, @RequestBody HotelDto newHotel){
-try {
-			
+	public ResponseEntity<?> updateHotel(@PathVariable("hid") int hid, @RequestBody HotelDto newHotel) {
+		try {
+
 			// Getting the Hotel details by Id
 			Hotel oldHotel = hotelService.getHotelsByHid(hid);
-			
-			//Checking the values in new object and setting to old object
-			if(newHotel.getName() != null)
+
+			// Checking the values in new object and setting to old object
+			if (newHotel.getName() != null)
 				oldHotel.setName(newHotel.getName());
-			if(newHotel.getEmail() != null)
+			if (newHotel.getEmail() != null)
 				oldHotel.setEmail(newHotel.getEmail());
-			if(newHotel.getAddress() != null)
+			if (newHotel.getAddress() != null)
 				oldHotel.setAddress(newHotel.getAddress());
-			if(newHotel.getPhone_number() != null)
+			if (newHotel.getPhone_number() != null)
 				oldHotel.setPhone_number(newHotel.getPhone_number());
-			
-			//Inserting the updated values to Hotel
+
+			// Inserting the updated values to Hotel
 			oldHotel = hotelService.postHotel(oldHotel);
-			
+
 			return ResponseEntity.ok().body(oldHotel);
 
 		} catch (InvalidIdException e) {
@@ -172,4 +172,18 @@ try {
 		}
 	}
 
+	@GetMapping("/get/{aid}")
+	public ResponseEntity<?> getByAdmin(@PathVariable("aid") int aid) {
+//		fetch admin details by id
+		try {
+			HotelAdmin hotelAdmin = hotelAdminService.getOne(aid);
+
+			List<Hotel> list = hotelService.getByAdmin(aid);
+			return ResponseEntity.ok().body(list);
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	
 }
