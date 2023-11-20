@@ -30,11 +30,11 @@ public class CustomerFamilyController {
 									@RequestBody CustomerFamily family) {
 			
 			try {
-				/*fetch customer ID*/
+				/*fetch customer details by ID*/
 				Customer customer = customerService.getById(cid);
 				/*set customer ID to family*/
 				family.setCustomer(customer);
-				/*insert customer family*/
+				/*insert customer family into db*/
 				family = customerFamilyService.insert(family);
 				return ResponseEntity.ok().body(family);
 				
