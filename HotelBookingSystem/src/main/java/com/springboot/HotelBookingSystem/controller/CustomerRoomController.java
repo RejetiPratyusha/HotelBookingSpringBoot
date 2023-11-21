@@ -18,21 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.HotelBookingSystem.dto.BookingDto;
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
-import com.springboot.HotelBookingSystem.model.Booking;
+import com.springboot.HotelBookingSystem.model.CustomerRoom;
 import com.springboot.HotelBookingSystem.model.Customer;
 import com.springboot.HotelBookingSystem.model.Hotel;
 import com.springboot.HotelBookingSystem.model.Room;
-import com.springboot.HotelBookingSystem.service.BookingService;
+import com.springboot.HotelBookingSystem.service.CustomerRoomService;
 import com.springboot.HotelBookingSystem.service.CustomerService;
 import com.springboot.HotelBookingSystem.service.HotelService;
 import com.springboot.HotelBookingSystem.service.RoomService;
 
 @RestController
 @RequestMapping("/feelhome")
-public class BookingController {
+public class CustomerRoomController {
 
 	@Autowired
-	private BookingService bookingService;
+	private CustomerRoomService customerRoomService;
 
 	@Autowired
 	private CustomerService customerService;
@@ -43,35 +43,44 @@ public class BookingController {
 	@Autowired
 	private RoomService roomService;
 
-	@PostMapping("/booking/add/{cid}/{hid}/{rid}")
-	public ResponseEntity<?> insert(@PathVariable("cid") int cid,
-			                        @PathVariable("hid") int hid,
-			                        @PathVariable("rid") int rid, 
-			                        @RequestBody Booking booking) {
+	/*
+	 * @PostMapping("/booking/bookMoreRooms/{cid}") public ResponseEntity<?>
+	 * bookMoreRooms(@PathVariable("cid") int cid,
+	 * 
+	 * @RequestBody List<Integer> roomIds) { try { Customer customer =
+	 * customerService.getById(cid);
+	 * 
+	 * // Retrieve rooms based on the provided roomIds List<Room> rooms =
+	 * roomService.getRoomsByIds(roomIds);
+	 * 
+	 * // Book more rooms for the customer for (Room room : rooms) { CustomerRoom
+	 * booking = new CustomerRoom(); booking.setCustomer(customer);
+	 * booking.setRoom(room); // Set other booking details as needed
+	 * customerRoomService.insert(booking); }
+	 * 
+	 * return ResponseEntity.ok().body("Rooms booked successfully."); } catch
+	 * (InvalidIdException e) { return
+	 * ResponseEntity.badRequest().body(e.getMessage()); } }
+	 */
 
-		try {
-			/* fetch customer ID */
-			Customer customer = customerService.getById(cid);
-			 Hotel hotel = hotelService.getHotelsByHid(hid);
-			  Room room = roomService.getById(rid);
-			/* set customer ID to booking */
-			booking.setCustomer(customer);
-			booking.setHotel(hotel);
-			booking.setRoom(room);
-			/* insert booking into booking table */
-			booking = bookingService.insert(booking);
-			
-			/* return booking if successful */
-			return ResponseEntity.ok().body(booking);
-		} catch (InvalidIdException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
+	    // API to calculate total price for rooms booked by a customer
+	    @GetMapping("/booking/totalPrice/{cid}")
+	    public ResponseEntity<?> calculateTotalPrice(@PathVariable("cid") int cid) {
+	        try {
+	            // Assuming you have a method to calculate total price in customerRoomService
+	            double totalPrice = customerRoomService.calculateTotalPrice(cid);
+	            return ResponseEntity.ok().body("Total Price for Rooms: " + totalPrice);
+	        } catch (InvalidIdException e) {
+	            return ResponseEntity.badRequest().body(e.getMessage());
+	        }
+	    }
+
+
 
 	@GetMapping("booking/getone/{bid}")
 	public ResponseEntity<?> getOne(@PathVariable("bid") int bid) {
 		try {
-			Booking booking = bookingService.getById(bid);
+			CustomerRoom booking = customerRoomService.getById(bid);
 			return ResponseEntity.ok().body(booking);
 		} catch (InvalidIdException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -84,9 +93,9 @@ public class BookingController {
 
 		try {
 			/* fetch booking id */
-			Booking booking = bookingService.getById(bid);
+			CustomerRoom booking = customerRoomService.getById(bid);
 			/* cancel booking after fetching ID */
-			bookingService.deleteBooking(booking);
+			customerRoomService.deleteBooking(booking);
 			/* return message if cancellation is successful */
 			return ResponseEntity.ok().body("Booking cancelled successfully");
 
@@ -96,17 +105,17 @@ public class BookingController {
 	}
 
 	@GetMapping("/booking/getall")
-	public List<Booking> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+	public List<CustomerRoom> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "1000000") Integer size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return bookingService.getAll(pageable);
+		return customerRoomService.getAll(pageable);
 
 	}
 
 	@PutMapping("/booking/update/{bid}")
 	public ResponseEntity<?> updateBooking(@PathVariable("bid") int bid, @RequestBody BookingDto newBooking) {
 		try {
-			Booking oldBooking = bookingService.getById(bid);
+			CustomerRoom oldBooking = customerRoomService.getById(bid);
 			if (newBooking.getCheck_in() != null)
 				oldBooking.setCheck_in(newBooking.getCheck_in());
 			if (newBooking.getCheck_out() != null)
@@ -116,7 +125,7 @@ public class BookingController {
 			if (newBooking.getNoOfChildren() != 0)
 				oldBooking.setNoOfChildren(newBooking.getNoOfChildren());
 
-			oldBooking = bookingService.insert(oldBooking);
+			oldBooking = customerRoomService.insert(oldBooking);
 			return ResponseEntity.ok().body(oldBooking);
 		} catch (InvalidIdException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -129,11 +138,34 @@ public class BookingController {
 //	fetch customer details by id
 		try {
 			Customer customer = customerService.getById(cid);
-			List<Booking> list = bookingService.getByCustomer(cid);
+			List<CustomerRoom> list = customerRoomService.getByCustomer(cid);
 			return ResponseEntity.ok().body(list);
 		} catch (InvalidIdException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 
 	}
+	
+	@PostMapping("/book/{cid}/{rid}")
+	public ResponseEntity<?> insert(@PathVariable("cid") int cid,
+									@PathVariable("rid") int rid,
+					   				@RequestBody CustomerRoom customerRoom) {
+		//get customer by id
+		try {
+			Customer customer = customerService.getById(cid);
+			//get room by id
+			Room room  = roomService.getById(rid);
+			customerRoom.setCustomer(customer);
+			customerRoom.setRoom(room);
+			customerRoom = customerRoomService.insert(customerRoom);
+			return ResponseEntity.ok().body(customerRoom);
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
 }
+										
+		
+
+	}
+
+	}
+

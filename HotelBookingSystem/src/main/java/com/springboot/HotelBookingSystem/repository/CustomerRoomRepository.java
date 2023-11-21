@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.springboot.HotelBookingSystem.model.Booking;
+import com.springboot.HotelBookingSystem.model.CustomerRoom;
 
-public interface BookingRepository extends JpaRepository<Booking, Integer>{
+public interface CustomerRoomRepository extends JpaRepository<CustomerRoom, Integer>{
 
-	List<Booking> findByCustomer(int cid);
+	List<CustomerRoom> findByCustomerId(int cid);
 
-	@Query("select COUNT(b) from Booking b where b.hotel.id = :hid AND b.room.id = :rid AND  b.check_in = :checkIn AND b.check_out = :checkOut")
-	int findNumberOfBookings(int hid,int rid, LocalDate checkIn, LocalDate checkOut);
+	@Query("select COUNT(cr) from CustomerRoom cr where cr.room.id = :rid AND  cr.check_in = :checkIn AND cr.check_out = :checkOut")
+	int findNumberOfBookings(int rid, LocalDate checkIn, LocalDate checkOut);
 }

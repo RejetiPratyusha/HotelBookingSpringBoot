@@ -93,13 +93,15 @@ public class RoomController {
 	
 	
 
-	@GetMapping("/rooms/getall/{hid}")
+	@GetMapping("/rooms/getByHotel/{hid}")
 	public List<Room> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "1000000") Integer size,
 			@PathVariable("hid") int hid) {
-		Pageable pageable = PageRequest.of(page, size);
-		return roomService.getAll(pageable);
-
+		/*
+		 * Pageable pageable = PageRequest.of(page, size); return
+		 * roomService.getAll(pageable);
+		 */
+		return roomService.getRoomsByHid(hid);
 	}
 
 	@PutMapping("/room/update/{rid}")

@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 
 
 @Entity
-public class Booking {
+public class CustomerRoom {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -18,7 +18,7 @@ public class Booking {
 	private LocalDate check_out;
 	private int noOfAdults;
 	private int noOfChildren;
-	private String bookingStatus;
+	private String bookingStatus; 
 	
 	@ManyToOne
 	private Customer customer;
@@ -26,10 +26,6 @@ public class Booking {
 	@ManyToOne
 	private Room room;
 	
-	@ManyToOne
-	private Hotel hotel;
-
-
 	public int getId() {
 		return id;
 	}
@@ -94,14 +90,6 @@ public class Booking {
 
 	public void setRoom(Room room) {
 		this.room = room;
-	}
-
-	public Hotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
 	}
 
 	@Override

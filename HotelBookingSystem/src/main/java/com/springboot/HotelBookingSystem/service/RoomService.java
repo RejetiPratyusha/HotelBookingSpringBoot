@@ -61,7 +61,7 @@ public class RoomService {
 		 List<Room> rooms = roomRepository.findByHotelId(hotelId);
 		 List<Room> availableRooms = new ArrayList<>();
 		 for(Room room : rooms) {
-			 int noOfBookings = bookingRepository.findNumberOfBookings(hotelId, room.getId(),checkIn, checkOut);
+			 int noOfBookings = bookingRepository.findNumberOfBookings(room.getId(),checkIn, checkOut);
 			 if(room.getTotalRooms() > noOfBookings) {
 				 availableRooms.add(room);
 			 }

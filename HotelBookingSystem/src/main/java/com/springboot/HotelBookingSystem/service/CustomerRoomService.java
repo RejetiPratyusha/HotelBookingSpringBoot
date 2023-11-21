@@ -8,46 +8,63 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
-import com.springboot.HotelBookingSystem.model.Booking;
-import com.springboot.HotelBookingSystem.repository.BookingRepository;
+import com.springboot.HotelBookingSystem.model.CustomerRoom;
+import com.springboot.HotelBookingSystem.repository.CustomerRoomRepository;
 
 @Service
-public class BookingService {
+public class CustomerRoomService {
 
 	@Autowired
-	private BookingRepository bookingRepository;
+	private CustomerRoomRepository customerRoomRepository;
 	
-	public Booking insert(Booking booking) {
+	public CustomerRoom insert(CustomerRoom booking) {
 		// TODO Auto-generated method stub
-		return bookingRepository.save(booking);
+		return customerRoomRepository.save(booking);
 	}
 	
 	
-	public Booking getById(int bid) throws InvalidIdException {
+	public CustomerRoom getById(int bid) throws InvalidIdException {
 		// TODO Auto-generated method stub
-		Optional<Booking> optional = bookingRepository.findById(bid);
+		Optional<CustomerRoom> optional = customerRoomRepository.findById(bid);
 		if(!optional.isPresent()) {
 			throw new InvalidIdException("Booking ID invalid....");
 		}
 		return optional.get();
 	}
-	public void deleteBooking(Booking booking) {
-			bookingRepository.delete(booking);
+	public void deleteBooking(CustomerRoom booking) {
+			customerRoomRepository.delete(booking);
 		
 	}
 
 
-	public List<Booking> getAll(Pageable pageable) {
+	public List<CustomerRoom> getAll(Pageable pageable) {
 		// TODO Auto-generated method stub
-		return bookingRepository.findAll(pageable).getContent();
+		return customerRoomRepository.findAll(pageable).getContent();
 	}
 
 
-	public List<Booking> getByCustomer(int cid) {
+	public List<CustomerRoom> getByCustomer(int cid) {
 		// TODO Auto-generated method stub
-		return bookingRepository.findByCustomer(cid);
+		return customerRoomRepository.findByCustomerId(cid);
 	}
 
+
+	  public double calculateTotalPrice(int customerId) throws InvalidIdException{
+	        List<CustomerRoom> bookedRooms = customerRoomRepository.findByCustomerId(customerId);
+
+	        // Calculate total price for the booked rooms
+	        double totalPrice = 0.0;
+	        for (CustomerRoom booking : bookedRooms) {
+	            totalPrice += booking.getRoom().getPrice();
+	        }
+
+	        return totalPrice;
+	    }
+
+
+
+
+	
 
 	
 
