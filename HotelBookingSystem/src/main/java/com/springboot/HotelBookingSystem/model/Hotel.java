@@ -17,6 +17,9 @@ public class Hotel {
 	private String email;
 	private String phone_number;
 	
+	
+	
+//	select cr.room.hotel from CustomerRoom cr where cr.check_in=?1 AND cr.check_out=?2 And cr.room.hotel.location.name=?3
 	@ManyToOne
 	private Executive executive;
 	

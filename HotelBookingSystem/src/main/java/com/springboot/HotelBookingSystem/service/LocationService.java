@@ -1,9 +1,11 @@
 package com.springboot.HotelBookingSystem.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
@@ -40,6 +42,11 @@ public class LocationService {
 		// TODO Auto-generated method stub
 		locationRepository.delete(location);
 		
+	}
+
+	public List<Location> getAllLocations(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return locationRepository.findAll(pageable).getContent();
 	}
 
 	

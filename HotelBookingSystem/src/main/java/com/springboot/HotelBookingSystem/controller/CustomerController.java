@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ import com.springboot.HotelBookingSystem.dto.Customerdto;
 
 @RestController
 @RequestMapping("/feelhome")
+@CrossOrigin(origins = {"http://localhost:3000"})
 	public class CustomerController {
 		@Autowired
 		private CustomerService customerService;

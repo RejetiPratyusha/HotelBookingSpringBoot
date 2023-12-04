@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ import com.springboot.HotelBookingSystem.service.UserService;
 
 @RestController
 @RequestMapping("/hr")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class HrController {
 
 	@Autowired
@@ -69,4 +71,6 @@ public class HrController {
 		
 		
 		}
+	
+	
 }

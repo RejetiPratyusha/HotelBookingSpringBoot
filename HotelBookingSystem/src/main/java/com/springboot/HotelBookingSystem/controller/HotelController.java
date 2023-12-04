@@ -1,11 +1,14 @@
 package com.springboot.HotelBookingSystem.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +33,7 @@ import com.springboot.HotelBookingSystem.service.LocationService;
 
 @RestController
 @RequestMapping("/hotel")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class HotelController {
 
 	@Autowired
@@ -185,5 +189,21 @@ public class HotelController {
 		}
 	}
 	
+	@GetMapping("/getAllByLocationName/{name}")
+	public List<Hotel> getByLocationName(@PathVariable("name") String name) {
+
+			List<Hotel> list = hotelService.getHotelsByLocationName(name);
+			return list;
+	}
+	
+	@GetMapping("/gethotelsby/{checkIn}/{checkOut},{lname}")
+	public List<Hotel> getHotelsByCheckinCheckoutLname(@PathVariable("checkIn")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn, 
+			                                    @PathVariable("checkOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut,
+			                                    @PathVariable("lname") String lname) {
+		return hotelService.getHotelsByCheckinCheckoutLname(checkIn,checkOut,lname);
+		
+		
+		
+	}
 	
 }

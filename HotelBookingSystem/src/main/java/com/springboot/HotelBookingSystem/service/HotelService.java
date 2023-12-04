@@ -1,5 +1,6 @@
 package com.springboot.HotelBookingSystem.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +59,17 @@ public class HotelService {
 		// TODO Auto-generated method stub
 		return hotelRepository.findByHotelAdminId(aid);
 	}
+
+	public List<Hotel> getHotelsByLocationName(String name) {
+		// TODO Auto-generated method stub
+		return hotelRepository.findHotelsByLocationName(name);
+	}
+
+	public List<Hotel> getHotelsByCheckinCheckoutLname(LocalDate checkIn, LocalDate checkOut, String lname) {
+		// TODO Auto-generated method stub
+		return hotelRepository.getHotelsByCheckinCheckoutLname(checkIn,checkOut,lname);
+	}
+
 
 	
 	
