@@ -19,6 +19,8 @@ public class CustomerRoom {
 	private int noOfAdults;
 	private int noOfChildren;
 	private String bookingStatus; 
+	private int numberOfRooms;
+	private double TotalPrice;
 	
 	@ManyToOne
 	private Customer customer;
@@ -92,11 +94,35 @@ public class CustomerRoom {
 		this.room = room;
 	}
 
+	
+	
+	public int getNumberOfRooms() {
+		return numberOfRooms;
+	}
+
+	public void setNumberOfRooms(int numberOfRooms) {
+		this.numberOfRooms = numberOfRooms;
+	}
+
+	public double getTotalPrice() {
+		return TotalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		TotalPrice = totalPrice;
+	}
+
 	@Override
 	public String toString() {
-		return "Booking [id=" + id + ", check_in=" + check_in + ", check_out=" + check_out + ", noOfAdults="
-				+ noOfAdults + ", noOfChildren=" + noOfChildren + ", customer=" + customer + "]";
+		return "CustomerRoom [id=" + id + ", check_in=" + check_in + ", check_out=" + check_out + ", noOfAdults="
+				+ noOfAdults + ", noOfChildren=" + noOfChildren + ", bookingStatus=" + bookingStatus
+				+ ", numberOfRooms=" + numberOfRooms + ", TotalPrice=" + TotalPrice + ", customer=" + customer
+				+ ", room=" + room + "]";
 	}
+
+	
+
+	
 	
 	
 	

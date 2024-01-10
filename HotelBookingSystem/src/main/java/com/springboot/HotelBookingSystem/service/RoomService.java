@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.springboot.HotelBookingSystem.dto.RoomAvailabilityResponse;
 import com.springboot.HotelBookingSystem.exception.InvalidIdException;
+import com.springboot.HotelBookingSystem.model.CustomerRoom;
 import com.springboot.HotelBookingSystem.model.Room;
 import com.springboot.HotelBookingSystem.repository.CustomerRoomRepository;
 import com.springboot.HotelBookingSystem.repository.RoomRepository;
@@ -57,21 +59,18 @@ public class RoomService {
 		return roomRepository.findAll(pageable).getContent();
 	}
 
-	public List<Room> getAllAvailableRoomsByHotelId(int hotelId, LocalDate checkIn, LocalDate checkOut) { 
-		 List<Room> rooms = roomRepository.findByHotelId(hotelId);
-		 List<Room> availableRooms = new ArrayList<>();
-		 for(Room room : rooms) {
-			 int noOfBookings = bookingRepository.findNumberOfBookings(room.getId(),checkIn, checkOut);
-			 if(room.getTotalRooms() > noOfBookings) {
-				 availableRooms.add(room);
-			 }
-			 else {
-				 System.out.println("No rooms available of type :::" + room.getRoom_type());
-			 }
-			 
-		 }
-		return availableRooms;
-	}
+	/*
+	 * public boolean getAllAvailableRoomsByHotelId(int hotelId, String roomType,
+	 * LocalDate checkIn, LocalDate checkOut) { Room room =
+	 * roomRepository.findByHotelIdAndRoomType(hotelId,roomType); boolean
+	 * isAvailable = false; int noOfBookings = 0; List<CustomerRoom> customerRooms =
+	 * bookingRepository.findNumberOfBookings(room.getId(),checkIn, checkOut);
+	 * if(!customerRooms.isEmpty()) { for(CustomerRoom cr : customerRooms) {
+	 * noOfBookings+=cr.getNumberOfRooms(); } } if(room.getTotalRooms() >
+	 * noOfBookings) { isAvailable=true; } else {
+	 * System.out.println("No rooms available of type :::" + roomType); } return
+	 * isAvailable; }
+	 */
 
 	public List<Room> getRoomsByIds(List<Integer> roomIds) throws InvalidIdException {
 	    List<Room> rooms = roomRepository.findAllById(roomIds);
@@ -79,6 +78,30 @@ public class RoomService {
 	        throw new InvalidIdException("No valid room IDs provided");
 	    }
 	    return rooms;
+	}
+
+	public Room getRoomsByHidAndRoomType(int hid, String roomType) {
+		return roomRepository.findByHotelIdAndRoomType(hid, roomType);
+	}
+	
+	public RoomAvailabilityResponse getAllAvailableRoomsByHotelId(int hotelId, String roomType, LocalDate checkIn, LocalDate checkOut) { 
+		RoomAvailabilityResponse response = new RoomAvailabilityResponse();
+		 Room room = roomRepository.findByHotelIdAndRoomType(hotelId,roomType);
+		 int noOfBookings = 0;
+			 List<CustomerRoom> customerRooms = bookingRepository.findNumberOfBookings(room.getId(),checkIn, checkOut);
+			 if(!customerRooms.isEmpty()) {
+			 for(CustomerRoom cr : customerRooms) {
+				 noOfBookings+=cr.getNumberOfRooms();
+			 }
+			 }
+			 if(room.getTotalRooms() > noOfBookings) {
+				 response.setIsavailable(true);	
+				 response.setRoomsAvailable(room.getTotalRooms() - noOfBookings);
+				 }
+		/*
+		 * else { System.out.println("No rooms available of type :::" + roomType); }
+		 */
+		return response;
 	}
 
 }

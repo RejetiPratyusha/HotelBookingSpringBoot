@@ -2,6 +2,7 @@ package com.springboot.HotelBookingSystem.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,9 @@ public class LocationController {
 
 	@Autowired
 	private ExecutiveService executiveService;
+	
+	@Autowired
+	private Logger logger;
 
 	
 
@@ -58,6 +62,7 @@ public class LocationController {
 	public List<Location> getAllLocations(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "1000000") Integer size) {
 		Pageable pageable = PageRequest.of(page, size);
+		logger.info("Calling all Locations");
 		return locationService.getAllLocations(pageable);
 
 	}

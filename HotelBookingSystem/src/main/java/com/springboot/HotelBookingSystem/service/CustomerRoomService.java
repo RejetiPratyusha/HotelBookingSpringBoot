@@ -62,6 +62,11 @@ public class CustomerRoomService {
 	    }
 
 
+	public List<CustomerRoom> getByHotel(int hid) {
+		return customerRoomRepository.findByHotelId(hid);
+	}
+
+
 
 
 	

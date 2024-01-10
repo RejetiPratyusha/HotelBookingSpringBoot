@@ -119,4 +119,14 @@ public class HotelAdminController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
+	@GetMapping("/getadmin/{id}")
+	public ResponseEntity<?> getAdminByAdminId(@PathVariable("id") int id) {
+		try {
+			HotelAdmin hotelAdmin = hotelAdminService.getOne(id);
+			return ResponseEntity.ok().body(hotelAdmin);
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 }

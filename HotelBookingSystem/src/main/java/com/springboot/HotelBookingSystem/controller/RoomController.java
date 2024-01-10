@@ -81,18 +81,6 @@ public class RoomController {
 		}
 	}
 	
-	
-	
-	@GetMapping("/get/availability/{hotelId}/{checkIn}/{checkOut}")
-	public List<Room> getAllAvailableRoomsByHotelId(@PathVariable("hotelId") int hotelId,
-			@PathVariable("checkIn")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn, 
-			@PathVariable("checkOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
-
-		return roomService.getAllAvailableRoomsByHotelId(hotelId, checkIn, checkOut);
-	}
-	 
-	
-	
 
 	@GetMapping("/rooms/getByHotel/{hid}")
 	public List<Room> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,

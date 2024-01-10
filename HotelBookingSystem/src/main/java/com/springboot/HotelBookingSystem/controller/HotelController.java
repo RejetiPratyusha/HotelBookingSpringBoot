@@ -3,6 +3,7 @@ package com.springboot.HotelBookingSystem.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,6 +48,9 @@ public class HotelController {
 
 	@Autowired
 	private LocationService locationService;
+	
+	@Autowired
+	private Logger logger;
 
 	@PostMapping("/add/{aid}/{lid}")
 	public ResponseEntity<?> postHotel(@PathVariable("aid") int aid, @PathVariable("lid") int lid,
@@ -72,8 +76,10 @@ public class HotelController {
 			hotel.setLocation(location);
 
 			hotel = hotelService.postHotel(hotel);
+			logger.info("Hotel details successfully posted");
 			return ResponseEntity.ok().body(hotel);
 		} catch (InvalidIdException e) {
+			logger.error(e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -98,6 +104,8 @@ public class HotelController {
 
 			return ResponseEntity.ok().body(list);
 		} catch (InvalidIdException e) {
+			logger.error(e.getMessage());
+
 			return ResponseEntity.badRequest().body(e.getMessage());
 
 		}
@@ -114,6 +122,8 @@ public class HotelController {
 
 			return ResponseEntity.ok().body(list);
 		} catch (InvalidIdException e) {
+			logger.error(e.getMessage());
+
 			return ResponseEntity.badRequest().body(e.getMessage());
 
 		}
@@ -127,6 +137,8 @@ public class HotelController {
 
 			return ResponseEntity.ok().body(hotel);
 		} catch (InvalidIdException e) {
+			logger.error(e.getMessage());
+
 			return ResponseEntity.badRequest().body(e.getMessage());
 
 		}
@@ -145,6 +157,8 @@ public class HotelController {
 			return ResponseEntity.ok().body("hotel deleted successfully");
 
 		} catch (InvalidIdException e) {
+			logger.error(e.getMessage());
+
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
@@ -176,13 +190,13 @@ public class HotelController {
 		}
 	}
 
-	@GetMapping("/get/{aid}")
+	@GetMapping("/getbyAdmin/{aid}")
 	public ResponseEntity<?> getByAdmin(@PathVariable("aid") int aid) {
 //		fetch admin details by id
 		try {
 			HotelAdmin hotelAdmin = hotelAdminService.getOne(aid);
 
-			List<Hotel> list = hotelService.getByAdmin(aid);
+			Hotel list = hotelService.getByAdmin(aid);
 			return ResponseEntity.ok().body(list);
 		} catch (InvalidIdException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -193,6 +207,7 @@ public class HotelController {
 	public List<Hotel> getByLocationName(@PathVariable("name") String name) {
 
 			List<Hotel> list = hotelService.getHotelsByLocationName(name);
+			logger.info("found Hotels By Locations");
 			return list;
 	}
 	

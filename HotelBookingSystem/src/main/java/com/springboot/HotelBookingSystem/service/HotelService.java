@@ -55,7 +55,7 @@ public class HotelService {
 		hotelRepository.delete(hotel);
 	}
 
-	public List<Hotel> getByAdmin(int aid) {
+	public Hotel getByAdmin(int aid) {
 		// TODO Auto-generated method stub
 		return hotelRepository.findByHotelAdminId(aid);
 	}

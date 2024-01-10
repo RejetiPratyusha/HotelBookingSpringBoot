@@ -12,9 +12,12 @@ public interface CustomerRoomRepository extends JpaRepository<CustomerRoom, Inte
 
 	List<CustomerRoom> findByCustomerId(int cid);
 
-	@Query("select COUNT(cr) from CustomerRoom cr where cr.room.id = :rid AND  cr.check_in = :checkIn AND cr.check_out = :checkOut")
-	int findNumberOfBookings(int rid, LocalDate checkIn, LocalDate checkOut);
+	@Query("select cr from CustomerRoom cr where cr.room.id = :rid AND  cr.check_in = :checkIn AND cr.check_out = :checkOut AND cr.bookingStatus = 'BOOKED'")
+	List<CustomerRoom> findNumberOfBookings(int rid, LocalDate checkIn, LocalDate checkOut);
 	
-	@Query("select COUNT(cr) from CustomerRoom cr where cr.room.hotel.id = :rid AND  cr.check_in = :checkIn AND cr.check_out = :checkOut")
+	@Query("select COUNT(cr) from CustomerRoom cr where cr.room.hotel.id = :rid AND  cr.check_in = :checkIn AND cr.check_out = :checkOut AND cr.bookingStatus = 'BOOKED'")
 	int findNumberOfBookingsForHotel(int rid, LocalDate checkIn, LocalDate checkOut);
+	
+	@Query("select cr from CustomerRoom cr where cr.room.hotel.id = :hid")
+	List<CustomerRoom> findByHotelId(int hid);
 }
